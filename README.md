@@ -1,4 +1,4 @@
-README.md — API Test Utility Framework
+API Test Utility Framework
 Overview
 This project is a lightweight Java API‑testing utility framework built on top of RestAssured and JUnit 5.
 It provides reusable helpers for:
@@ -54,24 +54,3 @@ Downloading files
 Deleting files
 
 Used by tests that require temporary files or downloaded API responses.
-
-Technology Stack
-Component	Version
-Java	17+
-Maven	3.x
-RestAssured	3.x
-JUnit	5.x
-Jackson	2.17.x
-Project Structure
-Code
-src
- ├── main
- │    └── java/org/db/apicore/core
- │          ├── RestAssuredHandler.java
- │          ├── QueryParametersHandler.java
- │          └── FileHandler.java
- └── test
-      └── java/org/db/apicore/tests
-            ├── RestAssuredHandlerTests.java
-            ├── QueryParametersHandlerTests.java
-            └── FileHandlerTests.java
