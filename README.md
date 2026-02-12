@@ -1,56 +1,88 @@
-**API Test Utility Framework**
-##Overview
-This project is a lightweight Java API‑testing utility framework built on top of RestAssured and JUnit 5.
-It provides reusable helpers for:
+<h1 style="font-size:32px; font-weight:700; color:#2c3e50; margin-bottom:10px;">
+  API Test Utility Framework
+</h1>
 
-Executing HTTP requests
+<h2 style="font-size:24px; font-weight:600; color:#34495e; margin-top:25px;">
+  Overview
+</h2>
 
-Manipulating URL query parameters
+<p style="font-size:16px; line-height:1.6; color:#555;">
+  This project is a lightweight Java API‑testing utility framework built on top of 
+  <strong>RestAssured</strong> and <strong>JUnit 5</strong>. It provides reusable helpers for:
+</p>
 
-Handling file operations for test data
+<ul style="font-size:16px; line-height:1.6; color:#555;">
+  <li>Executing HTTP requests</li>
+  <li>Manipulating URL query parameters</li>
+  <li>Handling file operations for test data</li>
+  <li>Running real integration tests against the Swagger Petstore API</li>
+</ul>
 
-Running real integration tests against the Swagger Petstore API
+<p style="font-size:16px; line-height:1.6; color:#555;">
+  The goal is to keep API tests <strong>clean</strong>, <strong>readable</strong>, and 
+  <strong>maintainable</strong> while avoiding repeated boilerplate code.
+</p>
 
-The goal is to keep API tests clean, readable, and maintainable while avoiding repeated boilerplate code.
+<hr style="margin:30px 0;">
 
-**##Features**
-**###1. RestAssuredHandler**
-A wrapper around RestAssured that standardizes:
+<h2 style="font-size:24px; font-weight:600; color:#34495e;">
+  Features
+</h2>
 
-GET, POST, PUT, DELETE requests
+<h3 style="font-size:20px; font-weight:600; color:#2c3e50; margin-top:20px;">
+  1. RestAssuredHandler
+</h3>
 
-JSON content type
+<p style="font-size:16px; line-height:1.6; color:#555;">
+  A wrapper around RestAssured that standardizes:
+</p>
 
-Logging
+<ul style="font-size:16px; line-height:1.6; color:#555;">
+  <li>GET, POST, PUT, DELETE requests</li>
+  <li>JSON content type</li>
+  <li>Request/response logging</li>
+  <li>Capturing status code, status description, and headers</li>
+  <li>Returning the response body as a string</li>
+</ul>
 
-Capturing status code, status description, and headers
+<p style="font-size:16px; line-height:1.6; color:#555;">
+  This ensures every test uses the same request format and response‑handling logic.
+</p>
 
-Returning the response body as a string
+<h3 style="font-size:20px; font-weight:600; color:#2c3e50; margin-top:20px;">
+  2. QueryParametersHandler
+</h3>
 
-This ensures every test uses the same request format and response‑handling logic.
+<p style="font-size:16px; line-height:1.6; color:#555;">
+  Utility for manipulating URL query strings:
+</p>
 
-**###2. QueryParametersHandler**
-Utility for manipulating URL query strings:
+<ul style="font-size:16px; line-height:1.6; color:#555;">
+  <li>Add parameters to a URL</li>
+  <li>Remove parameters from a URL</li>
+  <li>Parse and rebuild query strings while preserving order</li>
+</ul>
 
-Add parameters to a URL
+<p style="font-size:16px; line-height:1.6; color:#555;">
+  Useful for dynamically constructing API endpoints during tests.
+</p>
 
-Remove parameters from a URL
+<h3 style="font-size:20px; font-weight:600; color:#2c3e50; margin-top:20px;">
+  3. FileHandler
+</h3>
 
-Parse and rebuild query strings while preserving order
+<p style="font-size:16px; line-height:1.6; color:#555;">
+  Utility for:
+</p>
 
-Useful for dynamically constructing API endpoints during tests.
+<ul style="font-size:16px; line-height:1.6; color:#555;">
+  <li>Saving files</li>
+  <li>Reading files</li>
+  <li>Checking file existence</li>
+  <li>Downloading files</li>
+  <li>Deleting files</li>
+</ul>
 
-**###. FileHandler**
-Utility for:
-
-Saving files
-
-Reading files
-
-Checking file existence
-
-Downloading files
-
-Deleting files
-
-Used by tests that require temporary files or downloaded API responses.
+<p style="font-size:16px; line-height:1.6; color:#555;">
+  Used by tests that require temporary files or downloaded API responses.
+</p>
