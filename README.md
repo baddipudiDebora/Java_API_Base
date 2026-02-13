@@ -7,6 +7,14 @@
 </h2>
 
 <p style="font-size:16px; line-height:1.6; color:#555;">
+planning for a clear architectural decision pays off for years. 
+  three layers:
+1. Base Framework → reusable engine
+
+2. Template Project → skeleton for new API test projects
+
+3. Implementation Projects → team‑specific tests
+
   This project is a lightweight Java API‑testing utility framework built on top of 
   <strong>RestAssured</strong> and <strong>JUnit 5</strong>. It provides reusable helpers for:
 </p>
