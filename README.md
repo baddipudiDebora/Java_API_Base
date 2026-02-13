@@ -9,6 +9,7 @@
 <p style="font-size:16px; line-height:1.6; color:#555;">
 planning for a clear architectural decision pays off for years. 
   three layers:
+
 1. Base Framework → reusable engine
 
 2. Template Project → skeleton for new API test projects
