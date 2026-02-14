@@ -1,5 +1,6 @@
 package org.db.apicore.tests;
 
+import io.restassured.response.Response;
 import org.db.apicore.core.RestAssuredHandler;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,7 @@ public class RestAssuredHandlerTests {
     void testGET_findByStatus() {
         RestAssuredHandler handler = new RestAssuredHandler();
 
-        String response = handler.executeRequest(
+        Response response = handler.executeRequest(
                 "GET",
                 BASE_URL + "/pet/findByStatus?status=available",
                 null
@@ -37,7 +38,7 @@ public class RestAssuredHandlerTests {
         }
         """;
 
-        String response = handler.executeRequest(
+        Response response = handler.executeRequest(
                 "POST",
                 BASE_URL + "/pet",
                 body
@@ -45,7 +46,7 @@ public class RestAssuredHandlerTests {
 
         assertNotNull(response);
         assertEquals(200, handler.getStatusCode());
-        assertTrue(response.contains("DeboraDog"));
+        assertTrue(response.toString().contains("DeboraDog"));
     }
 
     @Test
@@ -60,7 +61,7 @@ public class RestAssuredHandlerTests {
         }
         """;
 
-        String response = handler.executeRequest(
+        Response response = handler.executeRequest(
                 "PUT",
                 BASE_URL + "/pet",
                 body
@@ -68,14 +69,14 @@ public class RestAssuredHandlerTests {
 
         assertNotNull(response);
         assertEquals(200, handler.getStatusCode());
-        assertTrue(response.contains("DeboraDogUpdated"));
+        assertTrue(response.toString().contains("DeboraDogUpdated"));
     }
 
     @Test
     void testDELETE_pet() {
         RestAssuredHandler handler = new RestAssuredHandler();
 
-        String response = handler.executeRequest(
+        Response response = handler.executeRequest(
                 "DELETE",
                 BASE_URL + "/pet/9999991",
                 null
@@ -90,7 +91,7 @@ public class RestAssuredHandlerTests {
     void testGET_invalidUrl_returnsError() {
         RestAssuredHandler handler = new RestAssuredHandler();
 
-        String response = handler.executeRequest(
+        Response response = handler.executeRequest(
                 "GET",
                 "https://petstore.swagger.io/v2/this/does/not/exist",
                 null

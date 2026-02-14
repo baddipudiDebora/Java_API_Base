@@ -13,37 +13,48 @@ public class RestAssuredHandler {
     /**
      * Executes an HTTP request using RestAssured and returns the response body.
      */
-    public String executeRequest(String method, String url, String requestBody) {
-
-        Response response;
-
+    public Response executeRequest(String method, String url, String requestBody) {
         try {
+            Response response;
+
             switch (method.toUpperCase()) {
-                case "GET" -> response = RestAssured
-                        .given()
-                        .contentType(ContentType.JSON)
-                        .log().all()
-                        .get(url);
+                case "GET" ->
+                        response = RestAssured
+                                .given()
+                                .contentType(ContentType.JSON)
+                                .log().all()
+                                .get(url);
 
-                case "POST" -> response = RestAssured
-                        .given()
-                        .contentType(ContentType.JSON)
-                        .body(requestBody)
-                        .log().all()
-                        .post(url);
+                case "POST" ->
+                        response = RestAssured
+                                .given()
+                                .contentType(ContentType.JSON)
+                                .body(requestBody)
+                                .log().all()
+                                .post(url);
 
-                case "PUT" -> response = RestAssured
-                        .given()
-                        .contentType(ContentType.JSON)
-                        .body(requestBody)
-                        .log().all()
-                        .put(url);
+                case "PUT" ->
+                        response = RestAssured
+                                .given()
+                                .contentType(ContentType.JSON)
+                                .body(requestBody)
+                                .log().all()
+                                .put(url);
 
-                case "DELETE" -> response = RestAssured
-                        .given()
-                        .contentType(ContentType.JSON)
-                        .log().all()
-                        .delete(url);
+                case "DELETE" ->
+                        response = RestAssured
+                                .given()
+                                .contentType(ContentType.JSON)
+                                .log().all()
+                                .delete(url);
+
+                case "PATCH" ->
+                        response = RestAssured
+                                .given()
+                                .contentType(ContentType.JSON)
+                                .body(requestBody)
+                                .log().all()
+                                .patch(url);
 
                 default -> throw new IllegalArgumentException("Unsupported HTTP method: " + method);
             }
@@ -52,14 +63,12 @@ public class RestAssuredHandler {
             this.statusDescription = response.statusLine();
             this.responseHeaders = response.getHeaders();
 
-            return response.asString();
+            return response;
 
         } catch (Exception e) {
-            this.statusDescription = "Error occurred while sending request";
-            return e.getMessage();
+            throw new RuntimeException("Error occurred while sending request", e);
         }
     }
-
     public int getStatusCode() {
         return statusCode;
     }

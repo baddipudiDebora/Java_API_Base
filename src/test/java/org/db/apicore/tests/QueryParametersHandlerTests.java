@@ -1,5 +1,6 @@
 package org.db.apicore.tests;
 
+import io.restassured.response.Response;
 import org.db.apicore.core.QueryParametersHandler;
 import org.db.apicore.core.RestAssuredHandler;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ public class QueryParametersHandlerTests {
 
         // Call Petstore API
         RestAssuredHandler handler = new RestAssuredHandler();
-        String response = handler.executeRequest("GET", cleanedUrl, null);
+        Response response = handler.executeRequest("GET", cleanedUrl, null);
 
         // Assert API response
         assertNotNull(response);
@@ -47,7 +48,7 @@ public class QueryParametersHandlerTests {
 
         // Call Petstore API
         RestAssuredHandler handler = new RestAssuredHandler();
-        String response = handler.executeRequest("GET", finalUrl, null);
+        Response response = handler.executeRequest("GET", finalUrl, null);
 
         // Assert API response
         assertNotNull(response);
@@ -72,7 +73,7 @@ public class QueryParametersHandlerTests {
 
         // Call Petstore API
         RestAssuredHandler handler = new RestAssuredHandler();
-        String response = handler.executeRequest("GET", cleanedUrl, null);
+        Response response = handler.executeRequest("GET", cleanedUrl, null);
 
         // Assert API response
         assertNotNull(response);

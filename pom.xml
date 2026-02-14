@@ -83,4 +83,12 @@
             </plugin>
         </plugins>
     </build>
-</project>
+    <!-- GitHub Packages publishing -->
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/baddipudiDebora/Java_API_Base</url>
+        </repository>
+    </distributionManagement>
+ </project>
