@@ -46,7 +46,8 @@ public class RestAssuredHandlerTests {
 
         assertNotNull(response);
         assertEquals(200, handler.getStatusCode());
-        assertTrue(response.toString().contains("DeboraDog"));
+        System.out.println(response.getBody().asString());
+        assertTrue(handler.getBody().contains("DeboraDog"));
     }
 
     @Test
@@ -69,7 +70,7 @@ public class RestAssuredHandlerTests {
 
         assertNotNull(response);
         assertEquals(200, handler.getStatusCode());
-        assertTrue(response.toString().contains("DeboraDogUpdated"));
+        assertTrue(handler.getBody().contains("DeboraDogUpdated"));
     }
 
     @Test

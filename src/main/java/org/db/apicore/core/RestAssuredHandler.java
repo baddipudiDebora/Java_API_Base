@@ -10,23 +10,25 @@ public class RestAssuredHandler {
     private String statusDescription;
     private io.restassured.http.Headers responseHeaders;
 
+    // ✅ NEW: store response
+    private Response response;
+
     /**
-     * Executes an HTTP request using RestAssured and returns the response body.
+     * Executes an HTTP request using RestAssured and returns the response.
      */
     public Response executeRequest(String method, String url, String requestBody) {
         try {
-            Response response;
 
             switch (method.toUpperCase()) {
                 case "GET" ->
-                        response = RestAssured
+                        this.response = RestAssured
                                 .given()
                                 .contentType(ContentType.JSON)
                                 .log().all()
                                 .get(url);
 
                 case "POST" ->
-                        response = RestAssured
+                        this.response = RestAssured
                                 .given()
                                 .contentType(ContentType.JSON)
                                 .body(requestBody)
@@ -34,7 +36,7 @@ public class RestAssuredHandler {
                                 .post(url);
 
                 case "PUT" ->
-                        response = RestAssured
+                        this.response = RestAssured
                                 .given()
                                 .contentType(ContentType.JSON)
                                 .body(requestBody)
@@ -42,14 +44,14 @@ public class RestAssuredHandler {
                                 .put(url);
 
                 case "DELETE" ->
-                        response = RestAssured
+                        this.response = RestAssured
                                 .given()
                                 .contentType(ContentType.JSON)
                                 .log().all()
                                 .delete(url);
 
                 case "PATCH" ->
-                        response = RestAssured
+                        this.response = RestAssured
                                 .given()
                                 .contentType(ContentType.JSON)
                                 .body(requestBody)
@@ -59,16 +61,18 @@ public class RestAssuredHandler {
                 default -> throw new IllegalArgumentException("Unsupported HTTP method: " + method);
             }
 
+            // store response details
             this.statusCode = response.statusCode();
             this.statusDescription = response.statusLine();
             this.responseHeaders = response.getHeaders();
 
-            return response;
+            return this.response;
 
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while sending request", e);
         }
     }
+
     public int getStatusCode() {
         return statusCode;
     }
@@ -79,5 +83,15 @@ public class RestAssuredHandler {
 
     public io.restassured.http.Headers getResponseHeaders() {
         return responseHeaders;
+    }
+
+    // NEW: get full body as string
+    public String getBody() {
+        return response != null ? response.getBody().asString() : null;
+    }
+
+    //  NEW: get JSON value by path
+    public String getJsonValue(String path) {
+        return response != null ? response.jsonPath().getString(path) : null;
     }
 }
