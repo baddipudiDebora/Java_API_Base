@@ -6,7 +6,7 @@
 
     <groupId>org.db</groupId>
     <artifactId>java-api-core-framework</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
