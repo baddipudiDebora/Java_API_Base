@@ -99,4 +99,5 @@ public class QueryParametersHandlerTests {
         // Assert API response
         assertTrue(handler.getStatusCode() == 400 || handler.getStatusCode() == 200);
     }
+
 }

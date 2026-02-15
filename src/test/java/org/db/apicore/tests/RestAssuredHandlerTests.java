@@ -101,4 +101,34 @@ public class RestAssuredHandlerTests {
         assertNotNull(response);
         assertTrue(handler.getStatusCode() == 404 || handler.getStatusCode() == 200);
     }
+    @Test
+    void testGET_executeRequestAsString() {
+        RestAssuredHandler handler = new RestAssuredHandler();
+
+        String result = handler.executeRequestAsString(
+                "GET",
+                BASE_URL + "/pet/findByStatus?status=available",
+                null
+        );
+
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertEquals(200, handler.getStatusCode());
+    }
+    @Test
+    void testGET_executeRequestAndGetJson() {
+        RestAssuredHandler handler = new RestAssuredHandler();
+
+        String name = handler.executeRequestAndGetJson(
+                "GET",
+                BASE_URL + "/pet/1",
+                null,
+                "name"
+        );
+
+        assertNotNull(name);
+        assertFalse(name.isEmpty());
+    }
+
+
 }

@@ -73,6 +73,17 @@ public class RestAssuredHandler {
         }
     }
 
+    public String executeRequestAsString(String method, String url, String requestBody) {
+        Response response = executeRequest(method, url, requestBody);
+        return response.getBody().asString();
+    }
+
+
+    public String executeRequestAndGetJson(String method, String url, String requestBody, String jsonPath) {
+        Response response = executeRequest(method, url, requestBody);
+        return response.jsonPath().getString(jsonPath);
+    }
+
     public int getStatusCode() {
         return statusCode;
     }
