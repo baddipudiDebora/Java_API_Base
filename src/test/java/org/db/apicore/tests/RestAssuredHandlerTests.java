@@ -119,16 +119,29 @@ public class RestAssuredHandlerTests {
     void testGET_executeRequestAndGetJson() {
         RestAssuredHandler handler = new RestAssuredHandler();
 
+        // Create a pet first
+        String body = """
+    {
+      "id": 9999992,
+      "name": "JsonDog",
+      "status": "available"
+    }
+    """;
+
+        handler.executeRequest("POST", BASE_URL + "/pet", body);
+
+        // Now fetch it
         String name = handler.executeRequestAndGetJson(
                 "GET",
-                BASE_URL + "/pet/1",
+                BASE_URL + "/pet/9999992",
                 null,
                 "name"
         );
 
         assertNotNull(name);
-        assertFalse(name.isEmpty());
+        assertEquals("JsonDog", name);
     }
+
 
 
 }
