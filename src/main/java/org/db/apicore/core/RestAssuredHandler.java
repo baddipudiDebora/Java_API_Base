@@ -61,6 +61,13 @@ public class RestAssuredHandler {
                 default -> throw new IllegalArgumentException("Unsupported HTTP method: " + method);
             }
 
+            System.out.println("----- API RESPONSE -----");
+            System.out.println("STATUS: " + this.getStatusCode() + " " + this.getStatusDescription());
+            System.out.println("HEADERS: " + this.getResponseHeaders());
+            System.out.println("BODY: " + this.getBody());
+            System.out.println("-------------------------");
+
+
             // store response details
             this.statusCode = response.statusCode();
             this.statusDescription = response.statusLine();
