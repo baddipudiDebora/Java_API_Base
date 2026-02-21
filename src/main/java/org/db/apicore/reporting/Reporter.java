@@ -18,17 +18,28 @@ public class Reporter {
         return currentTest.get();
     }
 
-    // Logging helpers
     public static void info(String message) {
-        getTest().log(Status.INFO, message);
+        if (isTestActive()) {
+            getTest().log(Status.INFO, message);
+        } else {
+            System.out.println("[INFO] " + message);
+        }
     }
 
     public static void pass(String message) {
-        getTest().log(Status.PASS, message);
+        if (isTestActive()) {
+            getTest().log(Status.PASS, message);
+        } else {
+            System.out.println("[PASS] " + message);
+        }
     }
 
     public static void fail(String message) {
-        getTest().log(Status.FAIL, message);
+        if (isTestActive()) {
+            getTest().log(Status.FAIL, message);
+        } else {
+            System.err.println("[FAIL] " + message);
+        }
     }
 
     public static void warning(String message) {
@@ -39,4 +50,10 @@ public class Reporter {
     public static void endTest() {
         currentTest.remove();
     }
+
+    // A safe callback
+    private static boolean isTestActive() {
+        return currentTest.get() != null;
+    }
+
 }

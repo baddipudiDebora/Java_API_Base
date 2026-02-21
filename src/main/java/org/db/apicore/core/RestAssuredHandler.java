@@ -3,6 +3,7 @@ package org.db.apicore.core;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.db.apicore.reporting.Reporter;
 
 public class RestAssuredHandler {
 
@@ -10,15 +11,30 @@ public class RestAssuredHandler {
     private String statusDescription;
     private io.restassured.http.Headers responseHeaders;
 
-    // ✅ NEW: store response
     private Response response;
 
     /**
-     * Executes an HTTP request using RestAssured and returns the response.
+     * Executes an HTTP request using RestAssured and logs request + response.
      */
     public Response executeRequest(String method, String url, String requestBody) {
         try {
 
+            // -------------------------
+            // REQUEST LOGGING
+            // -------------------------
+            Reporter.info("----- API REQUEST -----");
+            Reporter.info("HTTP Method: " + method);
+            Reporter.info("URL: " + url);
+
+            if (requestBody != null && !requestBody.isEmpty()) {
+                Reporter.info("Request Payload: " + requestBody);
+            } else {
+                Reporter.info("Request Payload: <empty>");
+            }
+
+            // -------------------------
+            // EXECUTE REQUEST
+            // -------------------------
             switch (method.toUpperCase()) {
                 case "GET" ->
                         this.response = RestAssured
@@ -61,21 +77,27 @@ public class RestAssuredHandler {
                 default -> throw new IllegalArgumentException("Unsupported HTTP method: " + method);
             }
 
-            System.out.println("----- API RESPONSE -----");
-            System.out.println("STATUS: " + this.getStatusCode() + " " + this.getStatusDescription());
-            System.out.println("HEADERS: " + this.getResponseHeaders());
-            System.out.println("BODY: " + this.getBody());
-            System.out.println("-------------------------");
-
-
-            // store response details
+            // -------------------------
+            // STORE RESPONSE DETAILS
+            // -------------------------
             this.statusCode = response.statusCode();
             this.statusDescription = response.statusLine();
             this.responseHeaders = response.getHeaders();
 
+            // -------------------------
+            // RESPONSE LOGGING
+            // -------------------------
+            Reporter.info("----- API RESPONSE -----");
+            Reporter.info("Status Code: " + statusCode);
+            Reporter.info("Status Line: " + statusDescription);
+            Reporter.info("Headers: " + responseHeaders);
+            Reporter.info("Response Body: " + getBody());
+            Reporter.pass("API call completed successfully");
+
             return this.response;
 
         } catch (Exception e) {
+            Reporter.fail("API request failed: " + e.getMessage());
             throw new RuntimeException("Error occurred while sending request", e);
         }
     }
@@ -84,7 +106,6 @@ public class RestAssuredHandler {
         Response response = executeRequest(method, url, requestBody);
         return response.getBody().asString();
     }
-
 
     public String executeRequestAndGetJson(String method, String url, String requestBody, String jsonPath) {
         Response response = executeRequest(method, url, requestBody);
@@ -103,12 +124,10 @@ public class RestAssuredHandler {
         return responseHeaders;
     }
 
-    // NEW: get full body as string
     public String getBody() {
         return response != null ? response.getBody().asString() : null;
     }
 
-    //  NEW: get JSON value by path
     public String getJsonValue(String path) {
         return response != null ? response.jsonPath().getString(path) : null;
     }
