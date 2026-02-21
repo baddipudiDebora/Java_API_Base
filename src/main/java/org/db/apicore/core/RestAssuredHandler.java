@@ -23,14 +23,6 @@ public class RestAssuredHandler {
             // REQUEST LOGGING
             // -------------------------
             Reporter.info("----- API REQUEST -----");
-            Reporter.info("HTTP Method: " + method);
-            Reporter.info("URL: " + url);
-
-            if (requestBody != null && !requestBody.isEmpty()) {
-                Reporter.info("Request Payload: " + requestBody);
-            } else {
-                Reporter.info("Request Payload: <empty>");
-            }
 
             // -------------------------
             // EXECUTE REQUEST
@@ -88,10 +80,8 @@ public class RestAssuredHandler {
             // RESPONSE LOGGING
             // -------------------------
             Reporter.info("----- API RESPONSE -----");
-            Reporter.info("Status Code: " + statusCode);
             Reporter.info("Status Line: " + statusDescription);
             Reporter.info("Headers: " + responseHeaders);
-            Reporter.info("Response Body: " + getBody());
             Reporter.pass("API call completed successfully");
 
             return this.response;
