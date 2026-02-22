@@ -1,27 +1,6 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8"/>
-  <title>Java API Base — README</title>
-  <style>
-    body { font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height:1.6; color:#222; padding:28px; max-width:980px; margin:auto; }
-    h1 { color:#0b5fff; margin-bottom:6px; font-size:28px; }
-    h2 { color:#0b5fff; margin-top:22px; font-size:20px; }
-    h3 { color:#333; margin-top:18px; font-size:16px; }
-    p { margin:10px 0; }
-    pre { background:#f6f8fa; padding:12px; border-radius:6px; overflow:auto; }
-    code { background:#f1f1f1; padding:2px 6px; border-radius:4px; }
-    table { border-collapse:collapse; width:100%; margin-top:12px; }
-    th, td { border:1px solid #e1e4e8; padding:8px 10px; text-align:left; vertical-align:top; }
-    th { background:#f6f8fa; font-weight:700; }
-    .muted { color:#666; font-size:0.95em; }
-    .pill { display:inline-block; background:#eef6ff; color:#0b5fff; padding:4px 8px; border-radius:999px; font-weight:600; margin-right:6px; }
-    a { color:#0b5fff; text-decoration:none; }
-    a:hover { text-decoration:underline; }
-    ul { margin:8px 0 12px 20px; }
-    hr { border:0; border-top:1px solid #e6e6e6; margin:20px 0; }
-    .small { font-size:0.95em; color:#444; }
-  </style>
 </head>
 <body>
 
