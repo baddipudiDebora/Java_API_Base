@@ -3,6 +3,7 @@ package org.db.apicore.core;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.db.apicore.reporting.Reporter;
 
 public class RestAssuredHandler {
@@ -12,6 +13,42 @@ public class RestAssuredHandler {
     private io.restassured.http.Headers responseHeaders;
 
     private Response response;
+
+    public enum HttpMethod {
+        GET {
+            @Override
+            public Response execute(RequestSpecification spec, String url, String body) {
+                return spec.get(url);
+            }
+        },
+        POST {
+            @Override
+            public Response execute(RequestSpecification spec, String url, String body) {
+                return spec.body(body).post(url);
+            }
+        },
+        PUT {
+            @Override
+            public Response execute(RequestSpecification spec, String url, String body) {
+                return spec.body(body).put(url);
+            }
+        },
+        DELETE {
+            @Override
+            public Response execute(RequestSpecification spec, String url, String body) {
+                return spec.delete(url);
+            }
+        },
+        PATCH {
+            @Override
+            public Response execute(RequestSpecification spec, String url, String body) {
+                return spec.body(body).patch(url);
+            }
+        };
+
+        public abstract Response execute(RequestSpecification spec, String url, String body);
+    }
+
 
     /**
      * Executes an HTTP request using RestAssured and logs request + response.
@@ -27,47 +64,10 @@ public class RestAssuredHandler {
             // -------------------------
             // EXECUTE REQUEST
             // -------------------------
-            switch (method.toUpperCase()) {
-                case "GET" ->
-                        this.response = RestAssured
-                                .given()
-                                .contentType(ContentType.JSON)
-                                .log().all()
-                                .get(url);
+            RequestSpecification spec = RestAssured.given().contentType(ContentType.JSON).log().all();
 
-                case "POST" ->
-                        this.response = RestAssured
-                                .given()
-                                .contentType(ContentType.JSON)
-                                .body(requestBody)
-                                .log().all()
-                                .post(url);
-
-                case "PUT" ->
-                        this.response = RestAssured
-                                .given()
-                                .contentType(ContentType.JSON)
-                                .body(requestBody)
-                                .log().all()
-                                .put(url);
-
-                case "DELETE" ->
-                        this.response = RestAssured
-                                .given()
-                                .contentType(ContentType.JSON)
-                                .log().all()
-                                .delete(url);
-
-                case "PATCH" ->
-                        this.response = RestAssured
-                                .given()
-                                .contentType(ContentType.JSON)
-                                .body(requestBody)
-                                .log().all()
-                                .patch(url);
-
-                default -> throw new IllegalArgumentException("Unsupported HTTP method: " + method);
-            }
+            HttpMethod httpMethod = HttpMethod.valueOf(method.toUpperCase());
+            this.response = httpMethod.execute(spec,url,requestBody);
 
             // -------------------------
             // STORE RESPONSE DETAILS
