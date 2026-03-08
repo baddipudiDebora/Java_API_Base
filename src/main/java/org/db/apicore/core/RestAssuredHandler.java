@@ -5,6 +5,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.db.apicore.reporting.Reporter;
+import org.db.apicore.utils.ApiLogger;
 
 public class RestAssuredHandler {
 
@@ -18,49 +19,66 @@ public class RestAssuredHandler {
         GET {
             @Override
             public Response execute(RequestSpecification spec, String url, String body) {
-                return spec.get(url);
+                return spec.when().get(url);
             }
         },
         POST {
             @Override
             public Response execute(RequestSpecification spec, String url, String body) {
-                return spec.body(body).post(url);
+                return spec.body(body).when().post(url);
             }
         },
         PUT {
             @Override
             public Response execute(RequestSpecification spec, String url, String body) {
-                return spec.body(body).put(url);
+                return spec.body(body).when().put(url);
             }
         },
         DELETE {
             @Override
             public Response execute(RequestSpecification spec, String url, String body) {
-                return spec.delete(url);
+                return spec.when().delete(url);
             }
         },
         PATCH {
             @Override
             public Response execute(RequestSpecification spec, String url, String body) {
-                return spec.body(body).patch(url);
+                return spec.body(body).when().patch(url);
             }
         };
 
         public abstract Response execute(RequestSpecification spec, String url, String body);
     }
 
-
     /**
      * Executes an HTTP request using RestAssured and logs request + response.
      */
     public Response executeRequest(String method, String url, String requestBody) {
         try {
+            // Log request
+            ApiLogger.logRequest(method, url, requestBody);
 
-            Reporter.info("----- API RESPONSE -----");
-            Reporter.info("Status Line: " + response.statusLine());
-            Reporter.info("Headers: " + response.getHeaders());
-            Reporter.info("Response Time: " + response.time() + " ms");
-            Reporter.pass("API call completed successfully");
+            // Build request spec
+            RequestSpecification spec = RestAssured
+                    .given()
+                    .contentType(ContentType.JSON)
+                    .log().all();
+
+            // Convert method string to enum
+            HttpMethod httpMethod = HttpMethod.valueOf(method.toUpperCase());
+
+            // Execute request
+            this.response = httpMethod.execute(spec, url, requestBody);
+
+            // Capture response details
+            this.statusCode = response.statusCode();
+            this.statusDescription = response.statusLine();
+            this.responseHeaders = response.getHeaders();
+
+            // Log response
+            ApiLogger.logresponse(response);
+
+            return this.response;
 
         } catch (Exception e) {
             Reporter.fail("API request failed: " + e.getMessage());

@@ -9,7 +9,7 @@ public class ApiLogger {
         Reporter.info("Methods: "+method);
         Reporter.info("URL: "+url);
 
-        if(body !=null & !body.isEmpty()){
+        if(body !=null && !body.isEmpty()){
             Reporter.info("Request Body: "+body);
         }
     }
