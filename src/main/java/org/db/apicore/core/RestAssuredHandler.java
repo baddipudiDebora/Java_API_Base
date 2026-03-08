@@ -56,35 +56,11 @@ public class RestAssuredHandler {
     public Response executeRequest(String method, String url, String requestBody) {
         try {
 
-            // -------------------------
-            // REQUEST LOGGING
-            // -------------------------
-            Reporter.info("----- API REQUEST -----");
-
-            // -------------------------
-            // EXECUTE REQUEST
-            // -------------------------
-            RequestSpecification spec = RestAssured.given().contentType(ContentType.JSON).log().all();
-
-            HttpMethod httpMethod = HttpMethod.valueOf(method.toUpperCase());
-            this.response = httpMethod.execute(spec,url,requestBody);
-
-            // -------------------------
-            // STORE RESPONSE DETAILS
-            // -------------------------
-            this.statusCode = response.statusCode();
-            this.statusDescription = response.statusLine();
-            this.responseHeaders = response.getHeaders();
-
-            // -------------------------
-            // RESPONSE LOGGING
-            // -------------------------
             Reporter.info("----- API RESPONSE -----");
-            Reporter.info("Status Line: " + statusDescription);
-            Reporter.info("Headers: " + responseHeaders);
+            Reporter.info("Status Line: " + response.statusLine());
+            Reporter.info("Headers: " + response.getHeaders());
+            Reporter.info("Response Time: " + response.time() + " ms");
             Reporter.pass("API call completed successfully");
-
-            return this.response;
 
         } catch (Exception e) {
             Reporter.fail("API request failed: " + e.getMessage());
